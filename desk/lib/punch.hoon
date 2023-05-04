@@ -1,8 +1,9 @@
 |%
-++  punch
+++  dumb
 |=  jon=json 
 ^-  hoon
-?<  .=(~ jon)
+?~  jon  
+  [%tsgl p=[%wing p=~[%ul]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
 ?-    -.jon
     %o
   :*  %cnhp
@@ -12,50 +13,112 @@
             ~(tap by p.jon)
           |=  [k=term v=json] 
           ^-  hoon
-          [%clhp [%rock %tas k] (punch v)]
+          [%clhp [%rock %tas k] (dumb v)]
   ==
 ::
     %a
+  ?~  p.jon
+    :*  %cncl
+        p=[%tsgl p=[%wing p=~[%ar]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+        q=~
+    ==
   :*  %cncl
       p=[%tsgl p=[%wing p=~[%at]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
       :~  :-  %clsg
           %+  turn
             ^-  (list json)
             p.jon
-          punch
+          dumb
   ==  ==
   ::
     %n
-  ::  use a 'no' for now... otherwise bit manipulation
   [%tsgl p=[%wing p=~[%no]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
 ::
     %s
-  :: my S.O
+  ::  Attempt to select the correct reparser through a series of +slaw calls
+  ?^  (slaw %p p.jon)
+    :*  %tsgl
+        p=[%cncl p=[%wing p=~[%se]] q=[i=[%rock p=%tas q=112] t=~]]
+        q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]
+    ==
+  :: When would we actually receive a string in @da form? probably never lol.
+  ?^  (slaw %da p.jon)
+    :*  %tsgl
+        p=[%cncl p=[%wing p=~[%se]] q=[i=[%rock p=%tas q=24.932] t=~]]
+        q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]
+    ==
+  ?^  (slaw %if p.jon)
+    :*  %tsgl
+        p=[%cncl p=[%wing p=~[%se]] q=[i=[%rock p=%tas q=26.217] t=~]]
+        q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]
+    ==
   [%tsgl p=[%wing p=~[%so]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
 ::
     %b
-  :: Bo-chan
   [%tsgl p=[%wing p=~[%bo]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
-==
 ::
-++  atta
+   
+==
+::++  punch
+::  Return the AST for the parser given the input JSON and expected type
+::
+::|=  [jon=json sur=type]
+::^-  hoon
+::?>  ?=(%o -.jon)
+::~(tap by jon)
+::==
+::
+::  sanitizes json object keys
+++  sanitize
 |=  jon=json
+^-  json
+?+    -.jon  jon
+    %o
+  :-  %o 
+  ^-  (map @t json)
+  %-  malt
+  %+  turn
+    ~(tap by p.jon)
+  |=  [k=@t v=json]
+    ?:  ((sane %tas) k)
+      :: do not transform --> recursive call
+      [k (sanitize v)]
+    :: transform -->  recursive call
+    :: check for underscores
+    ?~  (find ~['_'] (trip k))
+      [k (sanitize v)]
+    =.  k
+      ^-  @t
+      %+  rap  3
+      %+  join
+        '-'
+      (rash k (more cab sym))
+    [k (sanitize v)]
+    ::check for weird symbols?
+  ::
+  :: recursive call on children
+    %a
+  :-  %a
+  %+  turn
+    p.jon
+  sanitize
+==
+::  Produces the parser code given the type of the target noun
+++  reverso
+|=  typ=type
 ^-  hoon
-?>  ?=(%a -.jon)
-:-  %clsg
-^-  (list hoon)
-%+  turn
-  ^-  (list json)
-  p.jon
-|=  cel=json
-  ?+  -.cel  !!
-      %s
-    [%tsgl p=[%wing p=~[%so]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+?+    -.typ  !!
+    %cell
+  *hoon
   ::
-      %n
-    [%tsgl p=[%wing p=~[%no]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+    %atom
+  *hoon
+  ::(proc-atom typ)
   ::
-      %b
-    [%tsgl p=[%wing p=~[%bo]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
-  ==
+    %face
+  *hoon
+  ::
+    %fork
+  *hoon
+==
 --

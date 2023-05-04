@@ -148,6 +148,7 @@
       %$  $(aura %ui)
   ::
       %da  [%s (scot %da dat)]
+      ::  [%n (time:enjs:format dat)]
   ::
       %dr  [%s (scot %dr dat)]
   ::

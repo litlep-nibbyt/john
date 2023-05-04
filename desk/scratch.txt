@@ -1,0 +1,183 @@
+::  scratch
+
+::  example json
+'{
+  "name": ["Jon", "Johnson", "of Wisconsin"],
+  "member": true,
+  "dues": 123
+}'
+::  example json reparser
+=reparser =,  dejs:format
+%-  ot
+:~
+  [%name (at ~[so so so])]
+  [%member bo]
+  [%dues ni]
+==
+
+I give:
+
+[
+ name=[@t @t @t]
+ member=?
+ dues=@ud
+]
+
+[ %o
+    p
+  [ n=[p='name' q=[%a p=[i=[%s p='Jon'] t=[i=[%s p='Johnson'] t=~[[%s p='of Wisconsin']]]]]]
+    l=[n=[p='dues' q=[%n p=~.123]] l={} r={[p='member' q=[%b p=%.y]]}]
+    r=~
+  ]
+]
+
+%-  ot:dejs:format
+:~  [%abilities (at:dejs:format ~)]
+    [%name so:dejs:format]
+    :-  %types
+    %-  at:dejs:format
+    :~  %-  ot:dejs:format
+    ~[[%name so:dejs:format] [%url so:dejs:format]]
+    ==
+    [%id no:dejs:format]
+    :-  %moves
+    %-  at:dejs:format
+    :~  %-  ot:dejs:format
+    ~[[%name so:dejs:format] [%url so:dejs:format]]
+    ==
+    :-  %names
+    %-  at:dejs:format
+    :~  %-  ot:dejs:format
+    :~  [%name so:dejs:format]
+        :-  %language
+        %-  ot:dejs:format
+        ~[[%name so:dejs:format] [%url so:dejs:format]]
+    ==
+    ==
+    :-  %version-groups
+    %-  at:dejs:format
+    :~  %-  ot:dejs:format
+    ~[[%name so:dejs:format] [%url so:dejs:format]]
+    ==
+    :-  %pokemon-species
+    %-  at:dejs:format
+    :~  %-  ot:dejs:format
+    ~[[%name so:dejs:format] [%url so:dejs:format]]
+    ==
+    :-  %main-region
+    %-  ot:dejs:format
+    ~[[%name so:dejs:format] [%url so:dejs:format]]
+==
+
+
+::  first pass
+|%
+:: unwrap the first layer first
+++  punch
+|=  jon=json 
+=,  dejs:format
+^-  hoon
+=/  level=(list [@t json]) ~(tap by json)
+|-
+?~  level
+=;  result  $(level t.level, result result)
+?-    -.jon
+    %o
+  :: add an ot or smthn
+  p.i.level
+  $(q.i.level
+  $(jon p.jon)
+::
+    %a
+  ::  need to use an `at`
+  $(jon p.jon)
+::
+    %n
+  ::  use a 'no' for now... otherwise bit manipulation
+  [ ]
+::
+    %s
+  :: my S.O
+  1
+::
+    %b
+  :: Bo-chan
+  0
+==
+--
+
+
+++  proc-atom
+|=  adam=type
+?>  ?=(%atom -.adam)
+?+    p.adam  !!
+      %c  !!
+  ::
+      %$  $(aura %ui)
+  ::
+      %da  [%s (scot %da dat)]  :: print a warning
+  ::
+      %dr  [%s (scot %dr dat)]
+  ::
+    %f
+  [%tsgl p=[%wing p=~[%bo]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+  ::
+      %n  ~
+  ::
+      %p  [%s (scot %p dat)]
+  ::
+      %q  [%s (scot %q dat)]
+  ::
+      ?(%rh %rq %rd %rs)  [%s (scot %rs dat)]
+  ::
+      %s  [%s dat]
+  ::
+     ?(%t %ta %tas)  [%s dat]
+  ::
+     ?(%ub %uc)  (numb:enjs:format dat)
+  ::
+    %ux
+  [%tsgl p=[%wing p=~[%nu]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+  ::
+     %uv  [%s (scot %uv dat)]
+  ::
+     %ui  [%n `@t`(rsh [3 2] (scot %ui dat))]
+  ::
+    %ud  
+  [%tsgl p=[%wing p=~[%ni]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+==
+
+|=  cee=@t
+=+  k=`(list @t)`(trip cee)
+%^  spin
+    %+  fand
+      ~['_']  
+    k
+  k
+|=  [index=@ key=(list @t)]
+[~ (snap key index '-')]
+
+
+%-  ot:dejs:format
+:~  [%jam no:dejs:format]
+    :-  %effect-entries
+    %-  at:dejs:format
+    :~  %-  ot:dejs:format
+    :~  :-  %language
+    %-  ot:dejs:format
+    ~[[%name so:dejs:format] [%url so:dejs:format]]
+        [%effect so:dejs:format]
+    ==
+    ==
+    [%id no:dejs:format]
+    [%appeal no:dejs:format]
+    :-  %flavor-text-entries
+    %-  at:dejs:format
+    :~  %-  ot:dejs:format
+    :~  :-  %language
+    %-  ot:dejs:format
+    ~[[%name so:dejs:format] [%url so:dejs:format]]
+        [%flavor-text so:dejs:format]
+    ==
+    ==
+==
