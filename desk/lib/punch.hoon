@@ -13,7 +13,11 @@
             ~(tap by p.jon)
           |=  [k=term v=json] 
           ^-  hoon
-          [%clhp [%rock %tas k] (dumb v)]
+          ::  attach key k to (dumb v) result
+          :*  %clhp
+              [%rock %tas k] 
+              (label k (dumb v))
+          ==
   ==
 ::
     %a
@@ -103,6 +107,22 @@
     p.jon
   sanitize
 ==
+::  +label
+::  return a gate which attaches a face: `fac` to the result of a json parser grub 'g'
+++  label
+|=  [fac=term g=hoon]
+^-  hoon
+[ %brts
+  p=[%bcts p=term=%jon q=[%like p=~[%json] q=~]]
+  [ %ktts
+    p=term=fac
+    [ %cncl
+      p=g
+      q=[i=[%wing p=~[%jon]] t=~]
+    ]
+  ]
+]
+::
 ::  Produces the parser code given the type of the target noun
 ++  reverso
 |=  typ=type
