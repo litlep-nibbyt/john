@@ -124,6 +124,7 @@
 ]
 ::
 ::  Produces the parser code given the type of the target noun
+::  AND and example JSON
 ++  reverso
 |=  typ=type
 ^-  hoon
