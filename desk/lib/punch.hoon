@@ -1,4 +1,8 @@
 |%
+::  blind parse json
+::  > =sample (sanitize:punch (need (de-json:html jon)))
+::  > =eval ^-  hoon  [%cnhp p=(dumb:punch sample) q=[%wing p=~[%sample]]]
+::  > (slap !>(.) eval)
 ++  dumb
 |=  jon=json 
 ^-  hoon
@@ -16,6 +20,7 @@
           ::  attach key k to (dumb v) result
           :*  %clhp
               [%rock %tas k] 
+              ::  (dumb v)
               (label k (dumb v))
           ==
   ==
@@ -76,6 +81,7 @@
 ++  sanitize
 |=  jon=json
 ^-  json
+?~  jon  ~
 ?+    -.jon  jon
     %o
   :-  %o 
@@ -122,24 +128,4 @@
     ]
   ]
 ]
-::
-::  Produces the parser code given the type of the target noun
-::  AND and example JSON
-++  reverso
-|=  typ=type
-^-  hoon
-?+    -.typ  !!
-    %cell
-  *hoon
-  ::
-    %atom
-  *hoon
-  ::(proc-atom typ)
-  ::
-    %face
-  *hoon
-  ::
-    %fork
-  *hoon
-==
 --
