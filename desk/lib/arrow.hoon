@@ -1,202 +1,143 @@
 |%
-:: bccn forward look
-++  arrow-ni
+++  entry
 |=  target=hoon
 ^-  hoon
 ?>  ?=([%ktcl *] target)
 =/  s=spec  p.target
-?>  ?=([%bccn p=*] s)
-?> 
-  %+  levy
-    `(list spec)`p.s
-  |=  spic=spec
-  ?>  ?=([%bccl p=*] spic)
-  ::  JOIE: wtf...
-  ?=([%leaf *] i.p.p.spic)
-^-  hoon
-:*  %cncl
-    p=[%tsgl p=[%wing p=~[%of]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
-    :~  :-  %clsg
-        %+  turn
-            `(list spec)`p.s
-        |=  spic=spec
-        ?>  ?=([%bccl p=*] spic)
-        ?>  ?=([%leaf p=* q=*] i.p.p.spic)
-        :+  %clhp
-          [%rock %tas q.i.p.p.spic]
-        (h-bccn spic)      :: recurse
-==  ==
+:+  %tscm
+  p=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]
+(proc s)
 ::
-++  h-bccn
+++  proc
 |=  s=spec
 |-  =*  loop  $
-~&  >  s
-?+    -.s  !!
-    %bccn    ~|('%john: no nested buccen support.' !!)
-  ::
-    %base    ^-  hoon  (based p.s)
-  ::
-    %bccl
-  ?>  ?=([%leaf *] i.p.s)
+::  ~&  >  s
+?+    s  !!
+    [%bccn *]
+  :: validate %bccn structure
+  ?> 
+    %+  levy
+        `(list spec)`p.s
+    |=  spic=spec
+    ?>  ?=([%bccl p=*] spic)
+    ?=([%leaf *] i.p.p.spic)
+  ^-  hoon
   :*  %cncl
-      p=[%tsgl p=[%wing p=~[%ot]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
-      :~  :*  %clsg
-              ^-  (list hoon)
-              %+  turn 
-                `(list spec)`t.p.s
-              |=  spic=spec
-              loop(s spic)      :: recurse
-  ==  ==  ==
-    %bcts
-  ::  grab the term from the skin
-  ::  recurse on spec
-  ^-  hoon
-  :*  %clhp
-      [%rock p=%tas q=`*`p.s]          :: term
-      loop(s q.s)     :: recurse
-  ==
+      [%wing p=~[%of]] 
+      :~  :-  %clsg
+          %+  turn
+              `(list spec)`p.s
+          |=  spic=spec
+          ?>  ?=([%bccl p=*] spic)
+          ?>  ?=([%leaf p=* q=*] i.p.p.spic)
+          :+  %clhp
+            [%rock %tas q.i.p.p.spic]
+          loop(s spic)      :: recurse
+  ==  ==
   ::
-==
-
-++  arrow
-|=  target=hoon
-^-  hoon
-?>  ?=([%ktcl *] target)
-=/  s=spec  p.target
-|-  =*  loop  $
-~&  >  s
-?+    -.s  !!
-  ::  [%bcts p=skin q=spec]
-  ::  [%bcts p=term=%a q=[%base p=[%atom p=~.ud]]]
-  ::  (of ~[[%a ni]])
-  ::  [%bcts p=term=%a q=[%base p=[%atom p=~.ud]]]
-  ::  (of ~[[]])
-    %bcts
-  ::  grab the term from the skin
-  ::  recurse on spec
-  ^-  hoon
-  :*  %clhp
-      [%rock p=%tas q=`*`p.s]          :: term
-      loop(s q.s)     :: recurse
-  ==
-  ::
-    %bccn
-  !!
-  ::  this one next
-  ::  [%bccl p=[i=spec t=(list spec)]] 
-  ::  (ot:dejs:format ~[[]])
-    %bccl
-  ?+    i.p.s
+    [%bccl *]
+    ?:  ?&  ?=([%leaf *] i.p.s)
+            ?=([%leaf *] )
+        ==
+      loop(s i.p.s)
     :*  %cncl
-        p=[%tsgl p=[%wing p=~[%ot]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+        p=[%wing p=~[%ot]]
         :~  :*  %clsg
                 ^-  (list hoon)
                 %+  turn 
-                    `(list spec)`p.s
+                    ^-  (list spec)
+                    ?:  ?=([%leaf *] i.p.s)
+                      t.p.s
+                    p.s
                 |=  spic=spec
+                ?:  ?=  [%base %null]  spic
+                  ~|("Invalid spec: {<s>}" !!)
                 loop(s spic)      :: recurse
     ==  ==  ==
   ::
-      [%leaf *]
-    ^-  hoon
-    :*  %cncl
-        p=[%tsgl p=[%wing p=~[%of]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
-        :~  :*  %clsg
-                :~  :+  %clhp
-                  [%rock %tas q.i.p.s]
-                :*  %cncl
-                    p=[%tsgl p=[%wing p=~[%ot]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
-                    :~  :*  %clsg
-                            ^-  (list hoon)
-                            %+  turn 
-                                t.p.s
-                            |=  spic=spec
-                            loop(s spic)      :: recurse
-                ==
-    ==  ==  ==  ==  ==  ==
-  ==
+    [%bcts *]
+  ^-  hoon
+  :+  %clhp
+    [%rock p=%tas q=`*`p.s]          :: term
+  loop(s q.s)     :: recurse
   ::
   ::
-    %bcwt
-  !!
+    [%base *]    ^-  hoon  (based p.s)
   ::
-    %like
-  !!
+    [%leaf *]  !!
   ::
-    %leaf
-  !!
-  ::
-    %make
-  !! 
-  ::
-    %base
-  ?-    p.s
-      [%atom *]
-    ^-  hoon
-    =/  label=term  p.p.s
-    ?+    label  !!
-        ?(%t ~)
-      [%tsgl p=[%wing p=~[%so]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
-    ::
-        %ud
-      [%tsgl p=[%wing p=~[%ni]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
-    ::
-        %p
-      :*  %tsgl
-          p=[%cncl p=[%wing p=~[%se]] q=[i=[%rock p=%tas q=112] t=~]]
-          q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]
-      ==
+    [%make p=* q=*]
+  ?>  ?=  [%wing p=*]  p.s
+  ?>  .=(1 (lent `(list limb)`p.p.p.p.s))
+  =/  =limb  (snag 0 `(list limb)`p.p.p.p.s)
+  =/  wang=term
+    ?+    limb  limb 
+        [%| * q=(unit term)]  (need q.limb)
+        ::
+        [%& *]  !!
+        ::
     ==
+  ^-  hoon
+  ?+    wang  ~|("{<wang>} not supported" !!)
+      %term   [%wing p=~[%so]]
     ::
-      %noun 
-    !!
+      %list
+    :*  %cncl
+        [%wing p=~[%ar]]
+        :~  loop(s (snag 0 q.q.s))
+    ==  ==
     ::
-      %cell 
-    !!
+      %set
+    :*  %cncl
+        [%wing p=~[%as]]
+        :~  loop(s (snag 0 q.q.s))
+    ==  ==
     ::
-      %flag
-    !!
-    ::
-      %void
-    !!
-    ::
-      %null
-    !!
+      %unit
+    :^    %cnls
+        [%wing p=~[%cu]]
+      :*  %brts
+          [%bcts p=term=%a q=[%base %noun]]
+          :^    %wtsg 
+              ~[%a]
+            [%bust %null]
+          [%cnhp [%wing p=~[%some]] [%wing p=~[%a]]] 
+      ==
+    loop(s (snag 0 q.q.s))
   ==
+  ::
+    [%like *]   ~|("%john: we do not support the \\'{<(snag 0 p.s)>}\\' mold." !!)
 ==
+::
 ++  based
-|=  [b=base]
+|=  b=base
 ?-    b
     [%atom *]
   ^-  hoon
   =/  label=term  p.b
-  ?+    label  !!
-      ?(%t ~)
-    [%tsgl p=[%wing p=~[%so]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+  ?+    label  ~|("{<label>} not supported!" !!)
+      ?(%t %tas ~)  [%wing p=~[%so]]
   ::
-      %ud
-    [%tsgl p=[%wing p=~[%ni]] q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]]
+      %ud  [%wing p=~[%ni]]
   ::
-      %p
-    :*  %tsgl
-        p=[%cncl p=[%wing p=~[%se]] q=[i=[%rock p=%tas q=112] t=~]]
-        q=[%tsgl p=[%wing p=~[%dejs]] q=[%wing p=~[%format]]]
-    ==
+      %p   [%cncl p=[%wing p=~[%se]] q=[i=[%rock p=%tas q=112] t=~]]
+  ::
+      %ux  [%wing p=~[%nu]]
+  ::
+      %rd  [%wing p=~[%ne]]
+  ::
+      %da  [%wing p=~[%du]]
+  ::
+      %f   [%wing p=~[%bo]]
   ==
+    %noun  !!
   ::
-    %noun 
-  !!
+    %cell  !!
   ::
-    %cell 
-  !!
+    %flag  [%wing p=~[%bo]]
   ::
-    %flag
-  !!
+    %void  !!
   ::
-    %void
-  !!
-  ::
-    %null
-  !!
+    %null  [%wing p=~[%ul]]
 ==
 --

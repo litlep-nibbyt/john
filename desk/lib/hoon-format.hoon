@@ -279,6 +279,7 @@
 ::
 ++  p-hoon
   |=  gen=hoon
+  ~+
   ^-  form
   ?:  ?=(^ -.gen)
     ?:  ?=([%rock %n %0] p.gen)
@@ -345,6 +346,7 @@
   ::
       %cltr  (p-cltr +.gen)
       %cncl  (p-cncl +.gen)
+      %cndt  (p-rune-2 "%." (p-hoon p.gen) (p-hoon q.gen))
       %cnhp  (p-cncl [p q ~]:gen)
       %cnls  (p-cncl [p q r ~]:gen)
       %cnkt  (p-cncl [p q r s ~]:gen)
@@ -439,6 +441,7 @@
     %+  draw  line
     (p-hoon r.gen)
   ::
+      %tscm  (p-rune-2 "=," (p-hoon p.gen) (p-hoon q.gen))
       %tsfs  (p-tall-3 "=/" (p-skin p.gen) (p-hoon q.gen) (p-hoon r.gen))
       %tsgl
     %+  seek
@@ -511,12 +514,14 @@
     (p-tall-1 "?!" (p-hoon p.gen))
   ::
       %zpzp  (lite "!!")
+      %zpgl  (p-rune-2 "!<" (p-spec p.gen) (p-hoon q.gen))
       *      ~&  [%missing -.gen]  pure
   ==
 ::
 ::  Combine a list of forms, with a separator
 ::
 ++  p-join
+  ~+
   |*  a=mold
   |=  [sep=form lit=(list a) fun=$-(a form)]
   ^-  form
@@ -685,6 +690,7 @@
 ++  p-spec
   |=  =spec
   ^-  form
+  ~+
   ?-    -.spec
       %base  (p-base p.spec)
       %dbug  $(spec q.spec)
@@ -807,10 +813,12 @@
   ^-  form
   %+  draw  (lite rune)
   %+  draw  (lite "  ")
-  %+  draw  i.p
   %+  draw
     %-  indent
     %-  indent
+    %+  draw  i.p
+    ?~  t.p
+      pure
     %+  draw  line
     %^  (p-join-2 form)  line
       :(draw (dedent line) (lite "::") line)
