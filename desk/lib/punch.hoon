@@ -107,7 +107,7 @@
           |=  a=@t
           =+  %+  rush
                 a
-              ;~(pose (shim 0 47) (shim 58 64) (shim 92 96) (shim 123 127))
+              ;~(pose (shim 0 44) (shim 58 64) (shim 92 96) (shim 123 127))
           ?~(- %.n %.y)
       :: If nothing is left after filtering symbols, throw an error
       ?.  .=(~ -)

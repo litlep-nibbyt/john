@@ -36,10 +36,6 @@
   ==  ==
   ::
     [%bccl *]
-    ?:  ?&  ?=([%leaf *] i.p.s)
-            ?=([%leaf *] )
-        ==
-      loop(s i.p.s)
     :*  %cncl
         p=[%wing p=~[%ot]]
         :~  :*  %clsg
