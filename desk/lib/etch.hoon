@@ -9,27 +9,25 @@
   |=  [typ=type arg=*]
   ^-  json
   ?-    typ
-      %void  ~&  >  'void'  !!
-      %noun  ~&  >  'noun'  (en-noun arg)
+      %void  !!
+      %noun  (en-noun arg)
     ::
-      [%atom *]  ~&  >  'atom'  (en-dime p.typ ;;(@ arg))
+      [%atom *]
+    (en-dime p.typ ;;(@ arg))
     ::
       [%cell *]
-    ~&  >  "cell {<p.typ>}, {<q.typ>}"
     =/  hed=json  $(typ p.typ, arg -.arg)
     =/  tal=json  $(typ q.typ, arg +.arg)
     ::
     ?:  ?&  !!?=([%o ^] hed)
             !!?=([%o ^] tal)
         ==
-      ~&  >  'inner'
       [%o (~(uni by ?>(?=(%o -.hed) p.hed)) ?>(?=(%o -.tal) p.tal))]
     ::
-    ~&  >  "outer, head: {<hed>}, tail: {<tal>}"
     ?~  hed  tal
     ?:  &(?=([%s @t] hed) ?=([%s @t] tal))
       [%a hed tal ~]
-    ?:  &(?=([%s @t] hed) !?=([%s @t] tal))
+    ?:  &(?=([%s @t] hed) !?=([%s @t] tal) !?=([%a *] tal) !=(~ tal))
       [%a hed tal ~]
     ?:  &(?=([%a *] hed) ?=([%a *] tal))
       [%a (weld p.hed p.tal)]
@@ -45,7 +43,6 @@
     ::
       [%fork *]
     =/  tyz=(list type)  (turn ~(tap in p.typ) peel)
-    ~&  >  "fork {<tyz>}, length {<(lent tyz)>}"
     =.  tyz
       %-  zing
       %+  turn  tyz
@@ -54,11 +51,10 @@
       ?:(?=(%fork -.tep) ~(tap in p.tep) ~[tep])
     ::
     ?:  =(1 (lent tyz))
-      ~&  >>  "one: {<(head tyz)>}"  $(typ (head tyz))
+      $(typ (head tyz))
     ::  $?
     ::
     ?:  (levy tyz |=([t=type] ?=(%atom -.t)))
-      ~&  >  '$?'
       =/  aura
       ::
         =/  hid  (head tyz)
@@ -68,7 +64,6 @@
     ::  $%
     ::
     ?:  (levy tyz |=([t=type] ?=([%cell [%atom * ^] *] t)))
-      ~&  >  '$%'
       =/  aura
         =/  hid  (head tyz)
         ?>(?=([%cell [%atom @ ^] *] hid) p.p.hid)
@@ -94,17 +89,14 @@
       ~!  tyz  !!
     ::  $@
     ::
-    ~&  >  '$@'
     =/  [atoms=(list type) cells=(list type)]
       (skid tyz |=([t=type] ?=(%atom -.t)))
     ?@  arg
-    ~&  >  "atoms {<atoms>}"
       $(p.typ (sy atoms))
-    ~&  >  "cells {<cells>}"
     $(p.typ (sy cells))
   ::
-      [%hint *]  ~&  >  'hint'  $(typ q.typ)
-      [%hold *]  ~&  >  'hold'  $(typ (~(play ut p.typ) q.typ))
+      [%hint *]  $(typ q.typ)
+      [%hold *]  $(typ (~(play ut p.typ) q.typ))
   ==
 ::  +peel: recursively unwrap type
 ::
