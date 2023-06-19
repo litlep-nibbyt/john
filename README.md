@@ -6,7 +6,7 @@ The JSON -> noun direction relies on `~wicdev-wisryt`'s hoon autoformatter to tr
 
 ### Example usage (JSON -> noun) [[Video](https://youtu.be/uwjh7rOz-5I)]
 When given an example JSON tape, the `+reparse` generator generates the code for the hoon reparser of that JSON. The code
-can then be stormed under an arm in the user's project.
+can then copy and pasted into the user's app.
 
 We start with this example JSON from the spotify API:
 
