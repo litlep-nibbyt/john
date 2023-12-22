@@ -95,7 +95,7 @@ sanitized, we need to rerun sanitize on the input json so that they match.
 
 ```dojo
 > =p -build-file /=john=/lib/punch/hoon
-> (parse (sanitize:p (need (de-json:html j))))
+> (parse (sanitize:p (need (de:json:html j))))
 [ name='string'
   popularity=0
   images=[url='https://i.scdn.co/image/ab67616d00001e02ff9ca10b55ce82ae553c8228' width=300 height=300]

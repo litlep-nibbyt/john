@@ -7,7 +7,7 @@
   ::  +to-hoon: calls the hoon-format library on the result of +start
   ++  to-hoon
     |=  c=cord
-    =/  jon=json  (need (de-json:html c))
+    =/  jon=json  (need (de:json:html c))
     wall:(need ((p-hoon:hoon-format (start jon)) 0 | 0))
   ::
   ::  +start: calls +dumb, appends %tscm to top of AST for brevity

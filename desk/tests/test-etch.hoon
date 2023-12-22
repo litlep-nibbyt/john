@@ -20,17 +20,17 @@
   %+  expect-eq
   ::
   ::  Then, the result for x1 should be a json number 5,
-    !>((need (de-json:html '5')))
+    !>((need (de:json:html '5')))
   !>((en-vase:e !>(x1)))
   %+  expect-eq
   ::
   ::  the result for x2 should be a json string "five",
-    !>((need (de-json:html '"five"')))
+    !>((need (de:json:html '"five"')))
   !>((en-vase:e !>(x2)))
   %+  expect-eq
   ::
   ::  and the result for x3 should be a json boolean 'true'
-    !>((need (de-json:html 'true')))
+    !>((need (de:json:html 'true')))
   !>((en-vase:e !>(x3)))
   %+  expect-eq
   ::
@@ -54,17 +54,17 @@
   %+  expect-eq
   ::
   ::  Then, the result for x1 should be a json array of true, false, true,
-    !>((need (de-json:html '[true, false, true]')))
+    !>((need (de:json:html '[true, false, true]')))
   !>((en-vase:e !>(x1)))
   ::
   ::  the result for x2 should be a json array of "fee", "fi", "fo",
   %+  expect-eq
-    !>((need (de-json:html '["fee", "fi", "fo"]')))
+    !>((need (de:json:html '["fee", "fi", "fo"]')))
   !>((en-vase:e !>(x2)))
   ::
   ::  and the result for x2 should be a json array of 1,2,3
   %+  expect-eq
-    !>((need (de-json:html '[1,2,3]')))
+    !>((need (de:json:html '[1,2,3]')))
   !>((en-vase:e !>(x3)))
   ==
 ::
@@ -80,12 +80,12 @@
   %+  expect-eq
   ::
   ::  Then, the result for x1 should be the `json` object below
-    !>((need (de-json:html '{"a": 1, "b": "value"}')))
+    !>((need (de:json:html '{"a": 1, "b": "value"}')))
   !>((en-vase:e !>(x1)))
   %+  expect-eq
   ::
   ::  Then, the result for x2 should be the `json` object below
-    !>((need (de-json:html '{"a": 1, "b": [1,2,"last"]}')))
+    !>((need (de:json:html '{"a": 1, "b": [1,2,"last"]}')))
   !>((en-vase:e !>(x2)))
   ==
 ::

@@ -8,7 +8,7 @@
   ::
   =/  jon=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"Aardvark": 11}'
   ::
   ::  Whens,
@@ -35,7 +35,7 @@
   ::
   =/  jon=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"AardVark": 11}'
   ::
   ::  Whens,
@@ -63,7 +63,7 @@
   ::
   =/  jon=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"@@rdv-@rk$%.": 11}'
   ::
   ::  Whens,
@@ -92,7 +92,7 @@
   ::
   =/  jon=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"aard_vark_apts": 11}'
   ::
   ::  Whens,
@@ -119,7 +119,7 @@
   ::
   =/  jon=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"aard vark apts": 11}'
   ::
   ::  When,
@@ -145,7 +145,7 @@
   ::
   =/  jon=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"@#$#$%@^&+": 11}'
   ::
   ::  Thens, +sanitize will fail
