@@ -7,7 +7,7 @@
   :: a json null, named jon1 
   =/  jon1=json  
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     'null'
   ::
   ::  Whens,
@@ -31,13 +31,13 @@
   :: a json boolean, named jon1 holding the value: 'true'
   =/  jon1=json  
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     'false'
   ::
   :: a json boolean, named jon2 holding the value: 'false'.
   =/  jon2=json  
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     'true'
   ::
   ::  Whens,
@@ -70,7 +70,7 @@
   :: a json string, named jon.
   =/  jon=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '"abc123"'
   ::
   ::  Whens, 
@@ -91,19 +91,19 @@
   :: A json number, named jon1 holding an integer value.
   =/  jon1=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '33'
   ::
   :: A json number, named jon2 holding a decimal value.
   =/  jon2=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '33.33'
   ::
   :: and a json number named jon3 holding a negative decimal value.
   =/  jon3=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '-33.33'
   ::
   ::  When I use the +start arm with faces disabled
@@ -139,7 +139,7 @@
   ::  Given a json array named `jon` consisting of 3 elements of string, number, and boolean respectively.
   =/  jon=json
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '["A", 0.5, false]'
   ::
   ::  When I use the +start arm with faces disabled,
@@ -157,7 +157,7 @@
   ::  Given a json array named `jon` consisting of 3 elements, each of the string type.
   =/  jon=json  
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '["A", "B", "C"]'
   ::
   ::  When I use the +start arm inside with faces disabled,
@@ -175,7 +175,7 @@
   ::  Given a json object named `jon` with one key holding a number,
   =/  jon=json  
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"key": 10}'
   ::
   ::  When I use the +start arm with faces disabled,
@@ -192,7 +192,7 @@
   ::  Given a json object named `jon` which consists of nested objects 1 layer deep,
   =/  jon=json  
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"outer": {"inner": 10}}'
   ::
   ::  When I use the +start arm inside with faces disabled,
@@ -216,7 +216,7 @@
   ::  Given a json object named `jon` with one key holding an array with three string elements,
   =/  jon=json  
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"outer": ["J", "G", "Ballard"]}'
   ::
   ::  When I use the +start arm with faces disabled,
@@ -241,7 +241,7 @@
   ::  Given a json object named `jon` with one key holding an array with three elements,
   =/  jon=json  
     %-  need
-    %-  de-json:html
+    %-  de:json:html
     '{"outer": ["Ness", 10, 5, 5.35]}'
   ::
   ::  When I use the +start arm with faces disabled,
